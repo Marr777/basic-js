@@ -22,11 +22,24 @@ const { NotImplementedError } = require('../extensions/index.js');
  * }
  *
  */
-function getDNSStats(/* domains */) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
+
+const filterDomains = (arr, str) => arr.filter((el) => el.includes(str));
+
+function getDNSStats(domains) {
+  const comDomains = filterDomains(domains, 'com').length;
+  const epamDomains = filterDomains(domains, 'epam').length;
+  const infoDomains = filterDomains(domains, 'info').length;
+
+  const result = {};
+
+  if(comDomains) result['.com'] = comDomains;
+  if (epamDomains) result ['.com.epam'] = epamDomains;
+  if(infoDomains) result['.com.epam.info'] = infoDomains;
+
+  return result;
 }
 
+console.log(getDNSStats(['code.yandex.ru', 'music.yandex.ru', 'yandex.ru']));
 module.exports = {
   getDNSStats
 };
